@@ -21,6 +21,7 @@ public class WeaponHandler : NetworkBehaviour
     void Awake()
     {
         hpHandler = GetComponent<HPHandler>();
+        Debug.Log("A");
     }
 
 
@@ -50,7 +51,7 @@ public class WeaponHandler : NetworkBehaviour
     //플레이어가 발사버튼을 누름
     void Fire(Vector3 aimForwardVector)
     {
-        Debug.Log($"{transform.name} Fire()");
+        //Debug.Log($"{transform.name} Fire()");
 
         if (Time.time - lastTimeFire < 0.15f)
         {
@@ -71,28 +72,25 @@ public class WeaponHandler : NetworkBehaviour
         if(hitnfo.Hitbox != null)
         {
             // Debug.Log($"{Time.time} {transform.name} hit hitbox {hitnfo.Hitbox.transform.root.name}");
-            Debug.Log("!");
+            //Debug.Log("!");
             if (Object.HasStateAuthority)
             {
-                Debug.Log("!!");
+                Debug.Log("빌드안한 유니티 충돌 박스 켰음 ");
 
                 //히트박스의 충돌했을 경우 그 충돌체의 스크립트를 가져와서 함수 실행
-                //hitnfo.Hitbox.transform.root.GetComponent<HPHandler>().OnTakeDamage();
+                hitnfo.Hitbox.transform.root.GetComponent<HPHandler>().OnTakeDamage();
             }
-            Debug.Log("!@");
+            
 
             ishitOtherPlayer = true;
         }
         else if(hitnfo.Collider != null)
         {
-            Debug.Log("@");
+            //Debug.Log("@");
 
             // Debug.Log($"{Time.time} {transform.name} hit physX collider {hitnfo.Collider.transform.name}");
         }
-        else
-        {
-            Debug.Log("#");
-        }
+        
         //Debug
         if (ishitOtherPlayer)
         {
