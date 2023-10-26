@@ -19,20 +19,28 @@ public class Spawner : MonoBehaviour, INetworkRunnerCallbacks
     }
     public void OnPlayerJoined(NetworkRunner runner, PlayerRef player)
     {
-        if (runner.IsServer)
+        if (runner.IsServer) //연결되어있으면
         {
             runner.Spawn(playerPrefab, Utils.GetRandomSpawnPoint(), Quaternion.identity, player);
+            //생성해
         }
-        else Debug.Log("onPlayerJoined");
+        
     }
     public void OnInput(NetworkRunner runner, NetworkInput input)
     {
-        if(characterInputhandler == null && NetworkPlayer.Local != null )
-            characterInputhandler = NetworkPlayer.Local.GetComponent<CharacterInputhandler>();
+        //입력은 이 함수에서만 하는걸로 보임 
 
-        if(characterInputhandler != null)
+        //Local != null  >> 게임 오브젝트와 상호작용할 수 있는 플레이어   
+        if (characterInputhandler == null && NetworkPlayer.Local != null )
+            characterInputhandler = NetworkPlayer.Local.GetComponent<CharacterInputhandler>();
+        // >> NetworkPlayer 는 생성된 게임 오브젝트 캐릭터에 붙어있음   
+        // runner 가 생성된 플레이어
+
+        if (characterInputhandler != null)
         {
+            // NetworkInput.Set(NetworkInputData) 꼴로 보임 
             input.Set(characterInputhandler.GetNetworkInput());
+            //네트워크 인풋 전송하는 방식으로 보임 
         }
     }
     public void OnPlayerLeft(NetworkRunner runner, PlayerRef player)

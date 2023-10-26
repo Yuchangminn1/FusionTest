@@ -59,6 +59,8 @@ public class CharacterInputhandler : MonoBehaviour
 
     public NetworkInputData GetNetworkInput()
     {
+        //플레이어의 전반적인 인풋 전송
+
         //네트워크 데이터로 전송 
         NetworkInputData networkInputData = new NetworkInputData();
 

@@ -19,11 +19,9 @@ public class NetworkPlayer : NetworkBehaviour,IPlayerLeft
 
     public override void Spawned()
     {
-        if (Object.HasInputAuthority)
+        if (Object.HasInputAuthority) // 게임에서 움직일 권리 ? 같은거  
         {
             Local = this;
-            //특정부분 안보이게
-           // Utils.SetRenderLayerInChildren(playerModel, LayerMask.NameToLayer("LocalPlayerModel"));
 
             //Disable main camera 메인 카메라 제거
             //Camera.main.gameObject.SetActive(false);
@@ -32,7 +30,7 @@ public class NetworkPlayer : NetworkBehaviour,IPlayerLeft
         }
         else
         {
-            //다른 플레이어가 접속했을 때 카메라 따로 설정
+            
             Camera localCamera = GetComponentInChildren<Camera>();
             localCamera.enabled = false;
 
