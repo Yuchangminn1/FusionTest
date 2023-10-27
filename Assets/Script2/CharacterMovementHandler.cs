@@ -9,7 +9,7 @@ using JetBrains.Annotations;
 public class CharacterMovementHandler : NetworkBehaviour
 {
 
-    [Networked(OnChanged = nameof(OnFireNumChanged))]
+    //[Networked(OnChanged = nameof(OnFireNumChanged))]
     //이 네트워크 클래스가 
     //public NetworkedAttribute()
     //{
@@ -17,26 +17,27 @@ public class CharacterMovementHandler : NetworkBehaviour
     //}
     //로 정보 공유해주는거 
     //프로퍼티 써야지 적용 가능함 
-    int fireNum { get; set; }
+    //int fireNum { get; set; }
 
-    TextMeshPro textMeshPro;
+    //TextMeshPro textMeshPro;
+
 
     public bool isRespawnRequsted = false;
 
     Camera localCamera;
 
     NetworkCharacterControllerPrototypeCustom networkCharacterControllerPrototypeCustom;
-    //HPHandler hpHandler;
+    HPHandler hpHandler;
     void Awake()
     {
-        //  hpHandler = GetComponent<HPHandler>();
+        hpHandler = GetComponent<HPHandler>();
         networkCharacterControllerPrototypeCustom = GetComponent<NetworkCharacterControllerPrototypeCustom>();
         localCamera = GetComponentInChildren<Camera>();
     }
     // Start is called before the first frame update
     void Start()
     {
-        textMeshPro = GetComponentInChildren<TextMeshPro>();
+        //textMeshPro = GetComponentInChildren<TextMeshPro>();
 
     }
 
@@ -45,8 +46,8 @@ public class CharacterMovementHandler : NetworkBehaviour
     //서버에서 움직일려면 fixedUpdateNetwork
     public override void FixedUpdateNetwork()
     {
-        //Don't update the clients position when they ard dead
-        if (Object.HasInputAuthority)
+        
+        if (HasStateAuthority)
         {
             //상호작용 권한이 있으면
             if (isRespawnRequsted)
@@ -56,9 +57,15 @@ public class CharacterMovementHandler : NetworkBehaviour
                 return;
             }
             //죽은 상태면 정보 보내지 말고 리턴 
-            //if (hpHandler.isDead)
-            //    return;
+            if (hpHandler.isDead)
+                return;
         }
+        
+
+
+
+        //Don't update the clients position when they ard dead
+        
 
         //플레이어 이동 
         //get the input form the network
@@ -96,17 +103,16 @@ public class CharacterMovementHandler : NetworkBehaviour
             networkCharacterControllerPrototypeCustom.Move(moveDirection);
 
 
-
             //Jump 
             if (networkInputData.isJumpButtonPressed)
             {
                 networkCharacterControllerPrototypeCustom.Jump();
             }
-            if (networkInputData.isFireButtonPressed)
-            {
-                ++fireNum;
-                networkInputData.fireNum = fireNum;
-            }
+            //if (networkInputData.isFireButtonPressed)
+            //{
+            //    ++fireNum;
+            //    networkInputData.fireNum = fireNum;
+            //}
             CheckFallRespawn();
 
             //이상하게 떨어지면 정상적으로 리스폰
@@ -122,7 +128,7 @@ public class CharacterMovementHandler : NetworkBehaviour
     {
         if (transform.position.y < -12)
         {
-            if (Object.HasInputAuthority)
+            if (Object.HasStateAuthority)
             {
                 Debug.Log("CheckFallRespawn() 함수로 호출되어 리스폰");
 
@@ -139,7 +145,7 @@ public class CharacterMovementHandler : NetworkBehaviour
     public void RequestRespawn()
     {
         isRespawnRequsted = true;
-        
+
     }
     /// <summary>
     /// 강제이동 후
@@ -148,9 +154,10 @@ public class CharacterMovementHandler : NetworkBehaviour
     /// </summary>
     void Respawn()
     {
+        SetCharacterControllerEnabled(true);
         networkCharacterControllerPrototypeCustom.TeleportToPosition(Utils.GetRandomSpawnPoint());
 
-        //hpHandler.OnRespawned();
+        hpHandler.OnRespawned();
 
         isRespawnRequsted = false;
     }
@@ -164,23 +171,23 @@ public class CharacterMovementHandler : NetworkBehaviour
 
     //ONchage 쓸떄는 스태틱으로 사용해야함
     //이 함수는 사실 항상 실행되고 있는거고 두 변화값이  다르면 if문을 타고 아래 함수를 실행시키는거임 오우 
-    static void OnFireNumChanged(Changed<CharacterMovementHandler> changed)
-    {
+    //static void OnFireNumChanged(Changed<CharacterMovementHandler> changed)
+    //{
 
-        int fireNumCurrent = changed.Behaviour.fireNum;
-        //Load the old value
-        changed.LoadOld();
-        int fireNumOld = changed.Behaviour.fireNum;
+    //    int fireNumCurrent = changed.Behaviour.fireNum;
+    //    //Load the old value
+    //    changed.LoadOld();
+    //    int fireNumOld = changed.Behaviour.fireNum;
 
-        if (fireNumCurrent != fireNumOld)
-            changed.Behaviour.ChangeUItextFireNum(fireNumCurrent);
+    //    if (fireNumCurrent != fireNumOld)
+    //        changed.Behaviour.ChangeUItextFireNum(fireNumCurrent);
 
-    }
+    //}
 
-    void ChangeUItextFireNum(int num)
-    {
-        if (textMeshPro != null)
-            textMeshPro.text = $"{num}";
-    }
+    //void ChangeUItextFireNum(int num)
+    //{
+    //    if (textMeshPro != null)
+    //        textMeshPro.text = $"{num}";
+    //}
 
 }

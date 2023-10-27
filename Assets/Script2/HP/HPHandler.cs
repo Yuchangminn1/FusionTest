@@ -123,16 +123,18 @@ public class HPHandler : NetworkBehaviour
 
     static void OnStateChanged(Changed<HPHandler> changed)
     {
-        Debug.Log($"OnHPReduced()");
+        //Debug.Log($"OnHPReduced()");
 
         bool isDeathCurrent = changed.Behaviour.isDead;
 
+        Debug.Log("isDeathCurrent " + isDeathCurrent);
         changed.LoadOld();
 
         bool isDeadOld = changed.Behaviour.isDead;
+        Debug.Log("isDeadOld " + isDeadOld);
 
         //Handle on death for the player. Also check if the player was dead but is now alive in that case reive the player.
-        if(isDeathCurrent)
+        if (isDeathCurrent)
             changed.Behaviour.OnDeath();
         else if (!isDeathCurrent && isDeadOld)
         {
@@ -151,6 +153,7 @@ public class HPHandler : NetworkBehaviour
         
 
         Instantiate(deathGameObjectPrefab,transform.position,Quaternion.identity);
+
     }
     void OnReive()
     {

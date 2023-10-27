@@ -2803,6 +2803,7 @@ GameObject:
   - component: {fileID: 2421623636065208446}
   - component: {fileID: 9047304387839924898}
   - component: {fileID: 3912872274804672646}
+  - component: {fileID: -3314713640943993423}
   m_Layer: 0
   m_Name: NetworkRunnerPF
   m_TagString: Untagged
@@ -2889,7 +2890,7 @@ MonoBehaviour:
   ObjectInterest: 1
   DefaultInterestGroups: []
   DestroyWhenStateAuthorityLeaves: 0
-  AllowStateAuthorityOverride: 0
+  AllowStateAuthorityOverride: 1
   AoiPositionSource: {fileID: 0}
   Flags: 2305
   NetworkGuid:
@@ -2901,6 +2902,7 @@ MonoBehaviour:
   - {fileID: 2421623636065208446}
   - {fileID: 9047304387839924898}
   - {fileID: 3912872274804672646}
+  - {fileID: -3314713640943993423}
   SimulationBehaviours: []
 --- !u!114 &419139391232151003
 MonoBehaviour:
@@ -3020,6 +3022,19 @@ MonoBehaviour:
   uiONHitImage: {fileID: 1518777943790395289}
   playerModel: {fileID: 8561929000839491401}
   deathGameObjectPrefab: {fileID: 8443315704496310910, guid: 6ef35fa36e3a65043b2d800600204bdd, type: 3}
+--- !u!114 &-3314713640943993423
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3914668231813321630}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 643067c18a9be6c4983cca7b171540d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _interpolationDataSource: 0
 --- !u!1 &3922018370312105545
 GameObject:
   m_ObjectHideFlags: 0

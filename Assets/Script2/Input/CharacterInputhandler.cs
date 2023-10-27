@@ -12,11 +12,11 @@ public class CharacterInputhandler : MonoBehaviour
 
     CharacterMovementHandler characterMovementHandler;
     //other components
-    //LocalCameraHandler localCameraHandler;
+    LocalCameraHandler localCameraHandler;
 
     void Awake()
     {
-       // localCameraHandler = GetComponentInChildren<LocalCameraHandler>();
+        localCameraHandler = GetComponentInChildren<LocalCameraHandler>();
         characterMovementHandler = GetComponent<CharacterMovementHandler>();
     }
     // Start is called before the first frame update
@@ -34,8 +34,8 @@ public class CharacterInputhandler : MonoBehaviour
             return;
 
         //View input
-       // viewInputVector.x = Input.GetAxis("Mouse X");
-      //  viewInputVector.y = Input.GetAxis("Mouse Y") *-1; //Invert the mouse look
+        viewInputVector.x = Input.GetAxis("Mouse X");
+        viewInputVector.y = Input.GetAxis("Mouse Y") *-1; //Invert the mouse look
 
         //ÀÎÇ²À» ¼öÁý  move input
         moveInputVector.x = Input.GetAxis("Horizontal");
@@ -54,7 +54,7 @@ public class CharacterInputhandler : MonoBehaviour
             isFireButtonPressed = true;
             ++fireNum;
         }
-       // localCameraHandler.SetViewInputVector(viewInputVector);
+        localCameraHandler.SetViewInputVector(viewInputVector);
 
         
 
@@ -68,8 +68,8 @@ public class CharacterInputhandler : MonoBehaviour
         NetworkInputData networkInputData = new NetworkInputData();
 
         //View data
-        //networkInputData.rotationInput = viewInputVector.x;
-        //networkInputData.aimFowardVector = localCameraHandler.transform.forward;
+         //networkInputData.rotationInput = viewInputVector.x;
+        networkInputData.aimFowardVector = localCameraHandler.transform.forward;
         //Move data
         networkInputData.movementInput = moveInputVector;
 

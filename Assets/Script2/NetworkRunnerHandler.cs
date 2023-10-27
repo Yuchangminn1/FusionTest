@@ -24,6 +24,7 @@ public class NetworkRunnerHandler : MonoBehaviour
         var clienTask = InitializeNetworkRunner(networkRunner, GameMode.AutoHostOrClient, NetAddress.Any(), SceneManager.GetActiveScene().buildIndex, null);
         Debug.Log("sever networkRunner started.");
         // 
+        
     }
 
 

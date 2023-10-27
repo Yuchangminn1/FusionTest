@@ -7,6 +7,7 @@ using UnityEditor;
 public class WeaponHandler : NetworkBehaviour
 {
     [Networked(OnChanged = nameof(OnFireChanged))]
+    //"OnFireChanged"를 전부에게 공유 아마 
     public bool isFiring { get; set; }
 
     public ParticleSystem fireParticleSystem;
@@ -23,12 +24,6 @@ public class WeaponHandler : NetworkBehaviour
         hpHandler = GetComponent<HPHandler>();
         Debug.Log("A");
     }
-
-
-
-
-
-
 
 
     public override void FixedUpdateNetwork()
