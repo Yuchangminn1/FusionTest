@@ -9,7 +9,7 @@ public class NetworkPlayer : NetworkBehaviour,IPlayerLeft
 
 
     //특정 부분 안보이게
-    public Transform playerModel;
+    //public Transform playerModel;
 
     // Start is called before the first frame update
     void Start()
@@ -19,7 +19,7 @@ public class NetworkPlayer : NetworkBehaviour,IPlayerLeft
 
     public override void Spawned()
     {
-        if (Object.HasInputAuthority) // 게임에서 움직일 권리 ? 같은거  
+        if (Object.HasInputAuthority) // 게임에서 움직일 권리 ? 같은거   > 오브젝트를 이동시킬 권리
         {
             Local = this;
 

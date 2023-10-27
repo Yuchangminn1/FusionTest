@@ -5,16 +5,22 @@ using Fusion;
 using Fusion.Sockets;
 using System;
 using UnityEngine.Diagnostics;
+using TMPro;
 
 public class Spawner : MonoBehaviour, INetworkRunnerCallbacks
 {
+
+    //이게 사실상 개조할수 있는 심장이라고 생각해야할듯
+
     public NetworkPlayer playerPrefab;
 
     CharacterInputhandler characterInputhandler;
 
+
     // Start is called before the first frame update
     void Start()
     {
+        
 
     }
     public void OnPlayerJoined(NetworkRunner runner, PlayerRef player)
@@ -60,6 +66,7 @@ public class Spawner : MonoBehaviour, INetworkRunnerCallbacks
 
     public void OnConnectRequest(NetworkRunner runner, NetworkRunnerCallbackArgs.ConnectRequest request, byte[] token)
     {
+        //연결요청
        // throw new NotImplementedException();
     }
 

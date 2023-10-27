@@ -1,5 +1,6 @@
 using System;
 using Fusion;
+using TMPro;
 using UnityEngine;
 
 [RequireComponent(typeof(CharacterController))]
@@ -8,6 +9,9 @@ using UnityEngine;
 // ReSharper disable once CheckNamespace
 public class NetworkCharacterControllerPrototypeCustom : NetworkTransform
 {
+    //>> NetworkTransform  이란 게임오브젝트위 트랜스폼을 다른 모든 피어로 복제하여 ? 
+    // 동기화하는 것  이 게임오브젝트의 부모에는 networkObject가 필요하다는데 ?
+
     [Header("Character Controller Settings")]
     public float gravity = -20.0f;
     public float jumpImpulse = 8.0f;
@@ -24,6 +28,8 @@ public class NetworkCharacterControllerPrototypeCustom : NetworkTransform
     [Networked]
     [HideInInspector]
     public Vector3 Velocity { get; set; }
+
+
 
     /// <summary>
     /// Sets the default teleport interpolation velocity to be the CC's current velocity.
@@ -129,8 +135,10 @@ public class NetworkCharacterControllerPrototypeCustom : NetworkTransform
 
         Velocity = (transform.position - previousPos) * Runner.Simulation.Config.TickRate;
         IsGrounded = Controller.isGrounded;
-    }
 
+
+    }
+    
 
     public void Rotate(float rotationY)
     {

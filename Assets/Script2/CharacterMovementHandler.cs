@@ -3,23 +3,40 @@ using System.Collections.Generic;
 using UnityEngine;
 using Fusion;
 using Unity.VisualScripting;
+using TMPro;
+using JetBrains.Annotations;
 
 public class CharacterMovementHandler : NetworkBehaviour
 {
+
+    [Networked(OnChanged = nameof(OnFireNumChanged))]
+    //이 네트워크 클래스가 
+    //public NetworkedAttribute()
+    //{
+    //    OnChangedTargets = OnChangedTargets.All;
+    //}
+    //로 정보 공유해주는거 
+    //프로퍼티 써야지 적용 가능함 
+    int fireNum { get; set; }
+
+    TextMeshPro textMeshPro;
+
     public bool isRespawnRequsted = false;
 
     Camera localCamera;
+
     NetworkCharacterControllerPrototypeCustom networkCharacterControllerPrototypeCustom;
-    HPHandler hpHandler;
+    //HPHandler hpHandler;
     void Awake()
     {
-        hpHandler = GetComponent<HPHandler>();
+        //  hpHandler = GetComponent<HPHandler>();
         networkCharacterControllerPrototypeCustom = GetComponent<NetworkCharacterControllerPrototypeCustom>();
         localCamera = GetComponentInChildren<Camera>();
     }
     // Start is called before the first frame update
     void Start()
     {
+        textMeshPro = GetComponentInChildren<TextMeshPro>();
 
     }
 
@@ -39,8 +56,8 @@ public class CharacterMovementHandler : NetworkBehaviour
                 return;
             }
             //죽은 상태면 정보 보내지 말고 리턴 
-            if (hpHandler.isDead)
-                return;
+            //if (hpHandler.isDead)
+            //    return;
         }
 
         //플레이어 이동 
@@ -55,34 +72,43 @@ public class CharacterMovementHandler : NetworkBehaviour
         //GetInput >> NetworkBehavior 에 있는 함수
         if (GetInput(out NetworkInputData networkInputData))
         {
+
+            //Debug.Log($" has 뭐시기{transform.name} = " + networkCharacterControllerPrototypeCustom.Object.HasInputAuthority);w
+
             //Rotate the transform according to the client aim vector
             transform.forward = networkInputData.aimFowardVector;
             //cancel out rotation on X axis as we don't want our chracter to tilt
             //transform >> 각자의 캐릭터 러너
-            
+
 
             //x축 회전을 제거하는 방법 rigidbody 고정이랑 같다고 생각하지뭐
 
             Quaternion rotation = transform.rotation;
-            rotation.eulerAngles = new Vector3(0,rotation.eulerAngles.y,rotation.eulerAngles.z);
+            rotation.eulerAngles = new Vector3(0, rotation.eulerAngles.y, rotation.eulerAngles.z);
             transform.rotation = rotation;
 
 
-            
             //move input값 받아온걸로 계산
+
             Vector3 moveDirection = transform.forward * networkInputData.movementInput.y + transform.right * networkInputData.movementInput.x;
             moveDirection.Normalize();
-            
+
             networkCharacterControllerPrototypeCustom.Move(moveDirection);
+
+
 
             //Jump 
             if (networkInputData.isJumpButtonPressed)
             {
                 networkCharacterControllerPrototypeCustom.Jump();
             }
-
-
+            if (networkInputData.isFireButtonPressed)
+            {
+                ++fireNum;
+                networkInputData.fireNum = fireNum;
+            }
             CheckFallRespawn();
+
             //이상하게 떨어지면 정상적으로 리스폰
 
         }
@@ -102,7 +128,7 @@ public class CharacterMovementHandler : NetworkBehaviour
 
                 Respawn();
             }
-            
+
         }
     }
 
@@ -113,6 +139,7 @@ public class CharacterMovementHandler : NetworkBehaviour
     public void RequestRespawn()
     {
         isRespawnRequsted = true;
+        
     }
     /// <summary>
     /// 강제이동 후
@@ -123,7 +150,7 @@ public class CharacterMovementHandler : NetworkBehaviour
     {
         networkCharacterControllerPrototypeCustom.TeleportToPosition(Utils.GetRandomSpawnPoint());
 
-        hpHandler.OnRespawned();
+        //hpHandler.OnRespawned();
 
         isRespawnRequsted = false;
     }
@@ -135,5 +162,25 @@ public class CharacterMovementHandler : NetworkBehaviour
         networkCharacterControllerPrototypeCustom.Controller.enabled = isEnabled;
     }
 
+    //ONchage 쓸떄는 스태틱으로 사용해야함
+    //이 함수는 사실 항상 실행되고 있는거고 두 변화값이  다르면 if문을 타고 아래 함수를 실행시키는거임 오우 
+    static void OnFireNumChanged(Changed<CharacterMovementHandler> changed)
+    {
+
+        int fireNumCurrent = changed.Behaviour.fireNum;
+        //Load the old value
+        changed.LoadOld();
+        int fireNumOld = changed.Behaviour.fireNum;
+
+        if (fireNumCurrent != fireNumOld)
+            changed.Behaviour.ChangeUItextFireNum(fireNumCurrent);
+
+    }
+
+    void ChangeUItextFireNum(int num)
+    {
+        if (textMeshPro != null)
+            textMeshPro.text = $"{num}";
+    }
 
 }
