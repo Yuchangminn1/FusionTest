@@ -16,12 +16,12 @@ public class HealState : PlayerState
     public override void Enter()
     {
         base.Enter();
-        if(player.Hp >= player.HpMax || player.healNum == 0)
-        {
-            Debug.Log("체력이 이미 가득 찼습니다");
-            player.StateChange(player.moveState);
-            return;
-        }
+        //if(player.Hp >= player.HpMax || player.healNum == 0)
+        //{
+        //    Debug.Log("체력이 이미 가득 찼습니다");
+        //    player.StateChange(player.moveState);
+        //    return;
+        //}
         player.isHeal = true;
         player.isStop = true;
         //player.ZeroVelocity();
@@ -53,16 +53,16 @@ public class HealState : PlayerState
     private void ReCoverHP()
     {
         player.healNum -= 1;
-        UIScript.instance.HPHealNumIcon(player.healNum);
-        UIScript.instance.PlayerEffect(2);
-        if (player.Hp + player.fHpHeal > player.HpMax)
-        {
-            player.Hp = player.HpMax;
-        }
-        else
-        {
-            player.Hp += player.fHpHeal;
-        }
-        UIScript.instance.HpBarReset(player.Hp, player.HpMax);
+        //UIScript.instance.HPHealNumIcon(player.healNum);
+        //UIScript.instance.PlayerEffect(2);
+        //if (player.Hp + player.fHpHeal > player.HpMax)
+        //{
+        //    player.Hp = player.HpMax;
+        //}
+        //else
+        //{
+        //    player.Hp += player.fHpHeal;
+        //}
+        //UIScript.instance.HpBarReset(player.Hp, player.HpMax);
     }
 }

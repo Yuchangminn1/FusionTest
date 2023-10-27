@@ -12,12 +12,17 @@ public class PlayerHpHandler : NetworkBehaviour
 
     [SerializeField] Slider hpBar;
     [SerializeField] Image hpBarImage;
-    [SerializeField] Image[] hpHealNumImage;
-    [SerializeField] ParticleSystem[] playerParticle;
+    [SerializeField] Image hpHealFillImage;
+    [SerializeField] ParticleSystem playerParticle;
     // Start is called before the first frame update
     void Start()
     {
-        if(MaxHp == 0)
+        hpBar = GetComponentInChildren<Slider>();
+        hpBarImage = GetComponentInChildren<Image>();
+        hpHealFillImage = GetComponentInChildren<Image>();
+        playerParticle = GetComponentInChildren<ParticleSystem>();
+
+        if (MaxHp == 0)
         {
             MaxHp = 200;
             HpReset();
@@ -39,14 +44,14 @@ public class PlayerHpHandler : NetworkBehaviour
 
         int isFiringOld = changed.Behaviour.Hp;
 
-        if (isFiringCurrent != isFiringOld)
-            changed.Behaviour.HpBarSet();
+        //if (isFiringCurrent != isFiringOld)
+        //    changed.Behaviour.HpBarSet();
     }
 
-    void HpBarSet()
-    {
+    //void HpBarSet()
+    //{
 
-    }
+    //}
 
     void HpReset()
     {

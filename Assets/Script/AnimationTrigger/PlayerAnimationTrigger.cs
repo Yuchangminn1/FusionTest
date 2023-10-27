@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class PlayerAnimationTrigger : MonoBehaviour
 {
-    PlayerController player;
+    PlayerStateHandler player;
     Animator animator;
     // Start is called before the first frame update
     void Start()
     {
-        player = GetComponentInParent<PlayerController>();
+        player = GetComponentInParent<PlayerStateHandler>();
         animator = transform.GetComponent<Animator>();    
     }
 

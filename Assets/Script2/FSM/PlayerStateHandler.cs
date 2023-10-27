@@ -88,7 +88,7 @@ public class PlayerStateHandler : NetworkBehaviour
     public void AnimaPlay(string _name) => anima.Play(_name);
     public void SetState2(int _num)
     {
-        stateNum2 = _num;
+        //stateNum2 = _num;
         SetInt("State2", _num);
     }
     public void StateChange(EntityState _newState)
