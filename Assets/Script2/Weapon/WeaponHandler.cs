@@ -66,16 +66,14 @@ public class WeaponHandler : NetworkBehaviour
         }
         if(hitnfo.Hitbox != null)
         {
-            // Debug.Log($"{Time.time} {transform.name} hit hitbox {hitnfo.Hitbox.transform.root.name}");
-            //Debug.Log("!");
+            
             if (Object.HasStateAuthority)
             {
-                Debug.Log("빌드안한 유니티 충돌 박스 켰음 ");
 
                 //히트박스의 충돌했을 경우 그 충돌체의 스크립트를 가져와서 함수 실행
                 hitnfo.Hitbox.transform.root.GetComponent<HPHandler>().OnTakeDamage();
             }
-            
+
 
             ishitOtherPlayer = true;
         }
@@ -102,13 +100,11 @@ public class WeaponHandler : NetworkBehaviour
     //서버가 값을 전달하기까지 기다리기 
     IEnumerator FireEffectCO()
     {
-        Debug.Log($"{transform.name} FireEffectCO()");
 
         if (fireParticleSystem.isPlaying != true)
         {
             isFiring = true;
             fireParticleSystem.Play();
-            Debug.Log("ParticleOn");
             Debug.Log(fireParticleSystem.transform.position);
             yield return new WaitForSeconds(0.09f);
         }
@@ -117,7 +113,6 @@ public class WeaponHandler : NetworkBehaviour
 
     static void OnFireChanged(Changed<WeaponHandler> changed)
     {
-        Debug.Log($"OnFireChanged()");
 
         //Debug.Log($"{Time.time} OnFireChange value {changed.Behaviour.isFiring}");
         bool isFiringCurrent = changed.Behaviour.isFiring;
@@ -134,7 +129,6 @@ public class WeaponHandler : NetworkBehaviour
 
     void OnFireRemote()
     {
-        Debug.Log($"{transform.name} OnFireRemote()");
 
         if (!Object.HasInputAuthority)
         {
