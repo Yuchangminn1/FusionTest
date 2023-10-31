@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using Fusion;
 
+/// <summary>
+/// 플레이어 소환할 때 뭔가 추가하고싶으면 여기다가 추가하세용
+/// </summary>
 public class NetworkPlayer : NetworkBehaviour,IPlayerLeft
 {
     public static NetworkPlayer Local { get; set; }
@@ -36,7 +39,8 @@ public class NetworkPlayer : NetworkBehaviour,IPlayerLeft
 
             AudioListener audioListner = GetComponentInChildren<AudioListener>();
             audioListner.enabled = false;
-
+            Canvas localCanvas = GetComponentInChildren<Canvas>();
+            localCanvas.enabled = false;
             Debug.Log("spawned remote player");
         }
         //이름 Clone말고 번호로 하는법

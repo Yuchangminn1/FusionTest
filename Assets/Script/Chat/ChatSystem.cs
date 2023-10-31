@@ -1,74 +1,102 @@
-using System.Collections;
-using System.Collections.Generic;
-using Fusion;
-using TMPro;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using UnityEditor;
+using System.Collections;
+using UnityEngine.UI; // Required when Using UI elements.
+using TMPro;
+using Fusion;
+using Unity.VisualScripting;
 
 public class ChatSystem : NetworkBehaviour
 {
+    [SerializeField] GameObject mainInputFieldGO;
+    [SerializeField] InputField mainInputField;
+    [SerializeField] TextMeshProUGUI chatDisPlay;
+    [SerializeField] Scrollbar scroll;
 
-    [Header("Objects")]
-    public GameObject chatEntryCanvas;
-    public TMP_InputField chatEntryInput;
-    public TextMeshProUGUI chatBody;
-    public GameObject chatDisplay;
-    [HideInInspector] public static TextMeshProUGUI MyChatBody;
+    bool isEnter = false;
+    bool isSummit = false;
+    bool repit = false;
+
+    [Networked(OnChanged = nameof(ChatUpdate))]
+    public string chatLogString { get; set; }
+    // Checks if there is anything entered into the input field.
 
 
-    [Header("Action References")]
-    public InputActionReference startChat;
-    public InputActionReference sendChat;
-
-    [Header("Networked")]
-    private GameObject placeholder;
-    [Networked(OnChanged = nameof(LastPublicChatChanged))] public NetworkString<_256> LastPublicChat { get; set; }
-    [Networked(OnChanged = nameof(LastPublicChatChanged))] public NetworkString<_256> LastPrivateChat { get; set; }
-
-    private string thisPlayerName;
-
-    private void Start()
+    public void Start()
     {
-        if (HasStateAuthority)
+        mainInputFieldGO = gameObject;
+        mainInputField = mainInputFieldGO.GetComponent<InputField>();
+
+    }
+    public void Update()
+    {
+
+        if (!isSummit && Input.GetButtonDown("Submit"))
         {
-            startChat.action.performed += StartChat;
-            sendChat.action.performed += SendChat;
-            chatDisplay.gameObject.SetActive(true);
-            MyChatBody = chatBody;
+            isSummit = true;
+            repit = false;
         }
-        thisPlayerName = transform.root.GetComponent<NetworkCharacterControllerPrototypeCustom>().name;
-        //이름 연결
-    }
+        else if (isSummit && Input.GetButtonDown("Submit"))
+        {
+            isSummit = false;
+            repit = false;
 
-    protected static void LastPublicChatChanged(Changed<ChatSystem> change)
+        }
+
+    }
+    public void FixedUpdate()
     {
-        
-        change.Behaviour.chatBody.text +="\n" + change.Behaviour.thisPlayerName +" : "+ change.Behaviour.LastPublicChat.ToString();
-
-
+        if (repit)
+            return;
+        if (isSummit)
+        {
+            SummitOn();
+            repit = true;
+        }
+        if (!isSummit)
+        {
+            SummitOff();
+            repit = true;
+        }
     }
-    protected static void LastPrivateChatChanged(Changed<ChatSystem> change)
+
+    private void SummitOff()
     {
-
+        if (mainInputField.text != "")
+        {
+            chatLogString = $"{Object.name}" + mainInputField.text + "\n";
+            mainInputField.text = "";
+        }
+        mainInputField.ActivateInputField();
+        isEnter = false;
+        mainInputField.enabled = false;
     }
 
-    private void SendChat(InputAction.CallbackContext obj)
+    private void SummitOn()
     {
-        LastPublicChat = chatEntryInput.text;
-        chatEntryCanvas.SetActive(false);
+        mainInputField.enabled = true;
+        isEnter = true;
+        mainInputField.characterLimit = 1024;
 
+        mainInputField.Select();
     }
 
-    private void StartChat(InputAction.CallbackContext obj)
+
+    static void ChatUpdate(Changed<ChatSystem> changed)
     {
-        chatEntryCanvas.SetActive(true);
-        chatEntryInput.Select();
+        string NewString = changed.Behaviour.chatLogString;
+        changed.LoadOld();
+        string OldString = changed.Behaviour.chatLogString;
+
+        if (NewString != OldString)
+        {
+            changed.LoadNew();
+            changed.Behaviour.ChatON();
+        }
+
     }
-
-
-
-
-
-
+    void ChatON()
+    {
+        chatDisPlay.text += chatLogString;
+        scroll.value = 0;
+    }
 }

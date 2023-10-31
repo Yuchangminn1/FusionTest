@@ -8,6 +8,7 @@ public class CharacterInputhandler : MonoBehaviour
     Vector2 viewInputVector = Vector2.zero;
     bool isJumpButtonPressed = false;
     bool isFireButtonPressed = false;
+    bool isRightEnterPressed = false;
     int fireNum;
 
     CharacterMovementHandler characterMovementHandler;
@@ -54,6 +55,10 @@ public class CharacterInputhandler : MonoBehaviour
             isFireButtonPressed = true;
             ++fireNum;
         }
+        if (Input.GetButton("Submit"))
+        {
+            isRightEnterPressed = true;
+        }
         localCameraHandler.SetViewInputVector(viewInputVector);
 
         
@@ -77,11 +82,14 @@ public class CharacterInputhandler : MonoBehaviour
 
         networkInputData.isFireButtonPressed = isFireButtonPressed;
 
+        networkInputData.isRightEnterPressed = isRightEnterPressed;
+
+
         networkInputData.fireNum = fireNum;
 
         isJumpButtonPressed = false;
         isFireButtonPressed = false;
-
+        isRightEnterPressed = false;
         return networkInputData;
 
     }
