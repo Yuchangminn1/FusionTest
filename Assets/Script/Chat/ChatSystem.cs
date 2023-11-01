@@ -47,7 +47,7 @@ public class ChatSystem : NetworkBehaviour
     }
     public override void FixedUpdateNetwork()
     {
-        if (repit)
+        if (repit || !Object.HasStateAuthority)
             return;
         if (isSummit)
         {
