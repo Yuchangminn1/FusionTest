@@ -12,6 +12,8 @@ using System.Linq;
 public class NetworkRunnerHandler : MonoBehaviour
 {
     public NetworkRunner networkRunnerPrefab;
+    
+
 
     NetworkRunner networkRunner;
     void Start()

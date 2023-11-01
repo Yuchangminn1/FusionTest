@@ -9,14 +9,14 @@ public class ChatSystem : NetworkBehaviour
 {
     [SerializeField] GameObject mainInputFieldGO;
     [SerializeField] InputField mainInputField;
-    [SerializeField] TextMeshProUGUI chatDisPlay;
-    [SerializeField] Scrollbar scroll;
 
+   // [SerializeField] Scrollbar scroll;
+
+    [SerializeField] ChatDisPlay chatDisPlay;
     bool isEnter = false;
     bool isSummit = false;
     bool repit = false;
-
-    [Networked(OnChanged = nameof(ChatUpdate))]
+    
     public string chatLogString { get; set; }
     // Checks if there is anything entered into the input field.
 
@@ -25,6 +25,8 @@ public class ChatSystem : NetworkBehaviour
     {
         mainInputFieldGO = gameObject;
         mainInputField = mainInputFieldGO.GetComponent<InputField>();
+        chatDisPlay = GameObject.FindGameObjectWithTag("ChatDisplay").GetComponent<ChatDisPlay>();
+        mainInputField.characterLimit = 1024;
 
     }
     public void Update()
@@ -43,7 +45,7 @@ public class ChatSystem : NetworkBehaviour
         }
 
     }
-    public void FixedUpdate()
+    public override void FixedUpdateNetwork()
     {
         if (repit)
             return;
@@ -63,9 +65,10 @@ public class ChatSystem : NetworkBehaviour
     {
         if (mainInputField.text != "")
         {
-            chatLogString = $"{Object.name}" + mainInputField.text + "\n";
-            mainInputField.text = "";
+            chatDisPlay.PushChatLog(Object.name,mainInputField.text);
         }
+        mainInputField.text = "";
+        chatLogString = "";
         mainInputField.ActivateInputField();
         isEnter = false;
         mainInputField.enabled = false;
@@ -75,28 +78,32 @@ public class ChatSystem : NetworkBehaviour
     {
         mainInputField.enabled = true;
         isEnter = true;
-        mainInputField.characterLimit = 1024;
-
         mainInputField.Select();
     }
 
 
-    static void ChatUpdate(Changed<ChatSystem> changed)
-    {
-        string NewString = changed.Behaviour.chatLogString;
-        changed.LoadOld();
-        string OldString = changed.Behaviour.chatLogString;
+    //static void ChatUpdate(Changed<ChatSystem> changed)
+    //{
 
-        if (NewString != OldString)
-        {
-            changed.LoadNew();
-            changed.Behaviour.ChatON();
-        }
+    //    string NewString = changed.Behaviour.chatLogString;
+    //    if(NewString == "")
+    //    {
+    //        return;
+    //    }
+    //    changed.LoadOld();
+    //    string OldString = changed.Behaviour.chatLogString;
 
-    }
-    void ChatON()
-    {
-        chatDisPlay.text += chatLogString;
-        scroll.value = 0;
-    }
+    //    if (NewString != OldString)
+    //    {
+    //        changed.LoadNew();
+    //        changed.Behaviour.chatDisPlay.PushChatLog(NewString);
+    //        changed.Behaviour.chatLogString = "";
+    //    }
+
+    //}
+    //void ChatPush()
+    //{
+    //    chatDisPlay.text += chatLogString;
+    //    chatLogString = "";
+    //}
 }

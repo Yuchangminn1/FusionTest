@@ -10,19 +10,17 @@ public class NetworkPlayer : NetworkBehaviour,IPlayerLeft
 {
     public static NetworkPlayer Local { get; set; }
     public int mySNum = 0;
-
     //특정 부분 안보이게
     //public Transform playerModel;
 
     // Start is called before the first frame update
     void Start()
     {
-        
     }
 
     public override void Spawned()
     {
-        if (Object.HasInputAuthority) // 게임에서 움직일 권리 ? 같은거   > 오브젝트를 이동시킬 권리
+        if (Object.HasInputAuthority) // 게임에서 움직일 권리 ? 같은거   > 오브젝트를 이동시킬 권리?  NetworkObject스크립트를 붙여주면 트루
         {
             Local = this;
 
