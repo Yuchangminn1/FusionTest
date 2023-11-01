@@ -4,104 +4,130 @@ using UnityEngine.UI; // Required when Using UI elements.
 using TMPro;
 using Fusion;
 using Unity.VisualScripting;
+using System.Xml;
 
 public class ChatSystem : NetworkBehaviour
 {
+    [Networked(OnChanged = nameof(OnChangeChatLog))]
+    public string chatLogString { get; set; }
+
+    //public string chatLog { get; set; }
+
+    //public TMP_Text TMPText;
+    public bool logChange = false;
+
+
+    [SerializeField] Scrollbar scrollbar;
+
     [SerializeField] InputField mainInputField;
 
-   // [SerializeField] Scrollbar scroll;
+    [SerializeField] TMP_Text disPlay;
 
-    [SerializeField] ChatDisPlay chatDisPlay;
-    bool isEnter = false;
     bool isSummit = false;
     bool repit = false;
-    
-    public string chatLogString { get; set; }
+
     // Checks if there is anything entered into the input field.
 
 
     public void Start()
     {
-        
-        chatDisPlay = GameObject.FindGameObjectWithTag("ChatDisplay").GetComponent<ChatDisPlay>();
+
         mainInputField.characterLimit = 1024;
-
-    }
-    public void Update()
-    {
-
-        if (!isSummit && Input.GetButtonDown("Submit"))
+        if (Object.HasInputAuthority)
         {
-            isSummit = true;
-            repit = false;
-        }
-        else if (isSummit && Input.GetButtonDown("Submit"))
-        {
-            isSummit = false;
-            repit = false;
+            mainInputField.enabled = true;
 
         }
 
     }
+
     public override void FixedUpdateNetwork()
     {
-        if (repit || !Object.HasStateAuthority)
-            return;
-        if (isSummit)
+        if (Object.HasInputAuthority)
         {
-            SummitOn();
-            repit = true;
+            if (GetInput(out NetworkInputData networkInputData))
+            {
+
+                if (networkInputData.isRightEnterPressed)
+                {
+                    Debug.Log("Enter 들어옴");
+
+                    if (repit) SummitOff();
+
+                    else SummitOn();
+
+                }
+            }
+            if (scrollbar.value != 0)
+            {
+                scrollbar.value = 0;
+            }
         }
-        if (!isSummit)
-        {
-            SummitOff();
-            repit = true;
-        }
+
     }
 
     private void SummitOff()
     {
-        if (mainInputField.text != "")
+        if (mainInputField.text != "" && mainInputField.text != " ")
         {
-            chatDisPlay.PushChatLog(Object.name,mainInputField.text);
+            chatLogString = mainInputField.text;
+            Debug.Log($"chatLogString = {chatLogString}");
+            Debug.Log("Send");
+        }
+        else
+        {
+            Debug.Log("null Send");
         }
         mainInputField.text = "";
-        chatLogString = "";
-        mainInputField.ActivateInputField();
-        isEnter = false;
-        mainInputField.enabled = false;
+        mainInputField.Select();
+        repit = false;
+
     }
 
     private void SummitOn()
     {
-        mainInputField.enabled = true;
-        isEnter = true;
+        repit = true;
         mainInputField.Select();
+        Debug.Log("Write");
+        Debug.Log(Time.realtimeSinceStartupAsDouble);
+
+    }
+
+    /// <summary>
+    /// //////////////////////////////////////////
+    /// </summary>
+    public void PushChatLog(Transform _name, string _chat)
+    {
+        Debug.Log(Time.realtimeSinceStartup);
+        if (Object.HasInputAuthority)
+        {
+            if (disPlay != null)
+            {
+                disPlay.text += _name.name + _chat + "\n";
+            }
+        }
+        
+    }
+    static void OnChangeChatLog(Changed<ChatSystem> changed)
+    {
+
+        Debug.Log("ChatDis is Change ");
+
+        string newchatLog = changed.Behaviour.chatLogString;
+        if (newchatLog == "") //""로 초기화 하기 떄문에 피료없는 체인지는 리턴 
+        {
+            return;
+        }
+        else
+        {
+
+            changed.Behaviour.PushChatLog(changed.Behaviour.transform, newchatLog);
+            changed.Behaviour.chatLogString = "";
+        }
+
     }
 
 
-    //static void ChatUpdate(Changed<ChatSystem> changed)
-    //{
 
-    //    string NewString = changed.Behaviour.chatLogString;
-    //    if(NewString == "")
-    //    {
-    //        return;
-    //    }
-    //    changed.LoadOld();
-    //    string OldString = changed.Behaviour.chatLogString;
 
-    //    if (NewString != OldString)
-    //    {
-    //        changed.LoadNew();
-    //        changed.Behaviour.chatDisPlay.PushChatLog(NewString);
-    //        changed.Behaviour.chatLogString = "";
-    //    }
-
-    //}
-    //void ChatPush()
-    //{
-    //    chatDisPlay.text += chatLogString;
-    //    chatLogString = "";
-    //}
 }

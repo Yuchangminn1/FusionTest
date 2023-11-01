@@ -37,8 +37,11 @@ public class NetworkPlayer : NetworkBehaviour,IPlayerLeft
 
             AudioListener audioListner = GetComponentInChildren<AudioListener>();
             audioListner.enabled = false;
-            Canvas localCanvas = GetComponentInChildren<Canvas>();
-            localCanvas.enabled = false;
+            Canvas[] localCanvas = GetComponentsInChildren<Canvas>();
+            foreach(Canvas c in localCanvas)
+            {
+                c.enabled = false;
+            }
             Debug.Log("spawned remote player");
         }
         //이름 Clone말고 번호로 하는법

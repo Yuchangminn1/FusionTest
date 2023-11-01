@@ -22,7 +22,6 @@ public class WeaponHandler : NetworkBehaviour
     void Awake()
     {
         hpHandler = GetComponent<HPHandler>();
-        Debug.Log("A");
     }
 
 
@@ -46,6 +45,8 @@ public class WeaponHandler : NetworkBehaviour
     //플레이어가 발사버튼을 누름
     void Fire(Vector3 aimForwardVector)
     {
+        Debug.Log("Weapon  = " + Object.name);
+
         //Debug.Log($"{transform.name} Fire()");
 
         if (Time.time - lastTimeFire < 0.15f)

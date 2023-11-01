@@ -55,7 +55,7 @@ public class CharacterInputhandler : MonoBehaviour
             isFireButtonPressed = true;
             ++fireNum;
         }
-        if (Input.GetButton("Submit"))
+        if (Input.GetButtonDown("Submit"))
         {
             isRightEnterPressed = true;
         }
