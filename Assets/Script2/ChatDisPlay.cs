@@ -6,6 +6,10 @@ using TMPro;
 using UnityEngine.UI;
 public class ChatDisPlay : NetworkBehaviour
 {
+
+    //문제                                            1 엔터 입력과 상관없이 채팅입력 
+    //     2 참여자 쪽에서 메세지가 안보임 
+    //     3 아이디가 뒤에 들어온 참가자 아이디로 변경 
     [Networked(OnChanged = nameof(OnChangeChatLog))]
     public string chatLog { get; set; }
 

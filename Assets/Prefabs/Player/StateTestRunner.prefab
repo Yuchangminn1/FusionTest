@@ -4047,6 +4047,7 @@ GameObject:
   - component: {fileID: 4080126333681147370}
   - component: {fileID: 6680515567831462697}
   - component: {fileID: 7995857676783476488}
+  - component: {fileID: 6172670095148119971}
   m_Layer: 0
   m_Name: StateTestRunner
   m_TagString: Untagged
@@ -4127,7 +4128,7 @@ MonoBehaviour:
   - {fileID: 546154255838852756}
   - {fileID: 4080126333681147370}
   - {fileID: 6680515567831462697}
-  - {fileID: 2627104291116227567}
+  - {fileID: 6172670095148119971}
   SimulationBehaviours: []
 --- !u!114 &5549339753918557397
 MonoBehaviour:
@@ -4282,6 +4283,22 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &6172670095148119971
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4700366756860660107}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10c66e7ae5083f54e90d253390408f2f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _interpolationDataSource: 0
+  mainInputFieldGO: {fileID: 6256224158383597306}
+  mainInputField: {fileID: 8842511284936722637}
+  chatDisPlay: {fileID: 0}
 --- !u!1 &4790167207500058686
 GameObject:
   m_ObjectHideFlags: 0
@@ -5435,7 +5452,6 @@ GameObject:
   - component: {fileID: 1652010334120945332}
   - component: {fileID: 1216590056925480752}
   - component: {fileID: 8842511284936722637}
-  - component: {fileID: 2627104291116227567}
   m_Layer: 0
   m_Name: InputField (Legacy)
   m_TagString: Untagged
@@ -5595,24 +5611,6 @@ MonoBehaviour:
   m_CaretWidth: 1
   m_ReadOnly: 0
   m_ShouldActivateOnSelect: 1
---- !u!114 &2627104291116227567
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6256224158383597306}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 10c66e7ae5083f54e90d253390408f2f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _interpolationDataSource: 0
-  mainInputFieldGO: {fileID: 6256224158383597306}
-  mainInputField: {fileID: 8842511284936722637}
-  chatDisPlay: {fileID: 0}
-  scroll: {fileID: 0}
-  _chatLogString: 
 --- !u!1 &6352716000981170271
 GameObject:
   m_ObjectHideFlags: 0
