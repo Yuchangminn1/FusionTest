@@ -7,7 +7,6 @@ using Unity.VisualScripting;
 
 public class ChatSystem : NetworkBehaviour
 {
-    [SerializeField] GameObject mainInputFieldGO;
     [SerializeField] InputField mainInputField;
 
    // [SerializeField] Scrollbar scroll;
@@ -23,8 +22,7 @@ public class ChatSystem : NetworkBehaviour
 
     public void Start()
     {
-        mainInputFieldGO = gameObject;
-        mainInputField = mainInputFieldGO.GetComponent<InputField>();
+        
         chatDisPlay = GameObject.FindGameObjectWithTag("ChatDisplay").GetComponent<ChatDisPlay>();
         mainInputField.characterLimit = 1024;
 
