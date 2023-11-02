@@ -18,6 +18,9 @@ public class ChatSystem : NetworkBehaviour
 
     bool isSummit = false;
     bool repit = false;
+    [Networked(OnChanged = nameof(OnChangeChatLog))]
+    string myChat { get; set; }
+
 
     // Checks if there is anything entered into the input field.
 
@@ -57,7 +60,7 @@ public class ChatSystem : NetworkBehaviour
         if (mainInputField.text != "" && mainInputField.text != " ")
         {
             Debug.Log("Send");
-            chatDisplay.PushChatLog(transform, mainInputField.text);
+            mainInputField.text = myChat;
         }
         else
         {
@@ -75,11 +78,30 @@ public class ChatSystem : NetworkBehaviour
         Debug.Log(Time.realtimeSinceStartupAsDouble);
 
     }
+    static void OnChangeChatLog(Changed<ChatSystem> changed)
+    {
+        if (changed.Behaviour.myChat == "")
+        {
+            return;
+        }
+        string newM = changed.Behaviour.myChat;
+        changed.LoadOld();
+        string oldM = changed.Behaviour.myChat;
+        changed.LoadNew();
+        if (newM != oldM)
+        {
+            changed.Behaviour.PushMessage();
 
+        }
+    }
+    void PushMessage()
+    {
+        chatDisplay.PushChatLog(transform, myChat);
+    }
     /// <summary>
     /// //////////////////////////////////////////
     /// </summary>
-    
+
 
     //public void PushChatLog()
     //{

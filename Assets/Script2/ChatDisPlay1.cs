@@ -21,7 +21,7 @@ public class ChatDisPlay1 : NetworkBehaviour
     [SerializeField] Scrollbar scrollbar;
 
 
-    TMP_Text[] TMPTexts;
+    [SerializeField] TMP_Text[] TMPTexts;
 
     // Start is called before the first frame update
     void Start()
@@ -56,7 +56,7 @@ public class ChatDisPlay1 : NetworkBehaviour
         int i = 0;
         foreach(var B in TMPTexts)
         {
-             B.text += "\n" + $"{lastPushName}" + Q;
+             B.text += "\n" + Q;
         }
     }
 
