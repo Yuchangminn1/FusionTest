@@ -25,6 +25,7 @@ public class ChatSystem : NetworkBehaviour
     [SerializeField] GameObject disPlayGO;
     [SerializeField] TMP_Text disPlay;
 
+    [SerializeField] TMP_Text nickNameText;
 
     bool isSummit = false;
     bool repit = false;
@@ -37,7 +38,8 @@ public class ChatSystem : NetworkBehaviour
         scrollbarGO = GameObject.FindWithTag("ScrollV");
         scrollbar = scrollbarGO.GetComponent<Scrollbar>();
         disPlayGO = GameObject.FindWithTag("ChatDisplay");
-        disPlay = disPlayGO.GetComponent<TMP_Text>();
+
+        disPlay = disPlayGO.GetComponentInChildren<TMP_Text>();
 
 
         mainInputField.characterLimit = 1024;
@@ -104,13 +106,14 @@ public class ChatSystem : NetworkBehaviour
     /// <summary>
     /// //////////////////////////////////////////
     /// </summary>
-    public void PushChatLog(Transform _name, string _chat)
+    public void PushChatLog()
     {
-            if (disPlay != null)
-            {
-                disPlay.text += _name.name + _chat + "\n";
-            }
-        
+        if (disPlay != null)
+        {
+            disPlay.text += transform.name + chatLogString + "\n";
+            nickNameText.text  = transform.name + chatLogString + "\n";
+        }
+
     }
     static void OnChangeChatLog(Changed<ChatSystem> changed)
     {
@@ -124,8 +127,7 @@ public class ChatSystem : NetworkBehaviour
         }
         else
         {
-
-            changed.Behaviour.PushChatLog(changed.Behaviour.transform, newchatLog);
+            changed.Behaviour.PushChatLog();
             changed.Behaviour.chatLogString = "";
         }
 

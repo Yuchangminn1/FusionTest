@@ -10,6 +10,7 @@ public class NetworkPlayer : NetworkBehaviour,IPlayerLeft
 {
     public static NetworkPlayer Local { get; set; }
     public int mySNum = 0;
+
     //특정 부분 안보이게
     //public Transform playerModel;
 
