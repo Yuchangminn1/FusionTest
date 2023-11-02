@@ -18,8 +18,8 @@ public class ChatSystem : NetworkBehaviour
 
     bool isSummit = false;
     bool repit = false;
-    [Networked(OnChanged = nameof(OnChangeChatLog))]
-    string myChat { get; set; }
+    [Networked(OnChanged = nameof(ONCQ))]
+    public string myChat { get; set; }
 
 
     // Checks if there is anything entered into the input field.
@@ -32,6 +32,9 @@ public class ChatSystem : NetworkBehaviour
         {
             mainInputField.enabled = true;
         }
+
+
+        chatDisplay = GameObject.FindGameObjectWithTag("ChatDisplay").GetComponent<ChatDisPlay1>();
     }
 
     public override void FixedUpdateNetwork()
@@ -53,14 +56,14 @@ public class ChatSystem : NetworkBehaviour
             }
         }
     }
-
     private void SummitOff()
     {
         repit = false;
         if (mainInputField.text != "" && mainInputField.text != " ")
         {
-            Debug.Log("Send");
-            mainInputField.text = myChat;
+            myChat = mainInputField.text ;
+            Debug.Log($"Send MyChat = {myChat}");
+
         }
         else
         {
@@ -78,7 +81,7 @@ public class ChatSystem : NetworkBehaviour
         Debug.Log(Time.realtimeSinceStartupAsDouble);
 
     }
-    static void OnChangeChatLog(Changed<ChatSystem> changed)
+    static void ONCQ(Changed<ChatSystem> changed)
     {
         if (changed.Behaviour.myChat == "")
         {
@@ -94,9 +97,10 @@ public class ChatSystem : NetworkBehaviour
 
         }
     }
-    void PushMessage()
+    public void PushMessage()
     {
         chatDisplay.PushChatLog(transform, myChat);
+        Debug.Log($"Push {myChat}");
     }
     /// <summary>
     /// //////////////////////////////////////////

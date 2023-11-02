@@ -21,12 +21,11 @@ public class ChatDisPlay1 : NetworkBehaviour
     [SerializeField] Scrollbar scrollbar;
 
 
-    [SerializeField] TMP_Text[] TMPTexts;
 
     // Start is called before the first frame update
     void Start()
     {
-        AAAA();
+
     }
 
     public override void FixedUpdateNetwork()
@@ -41,35 +40,11 @@ public class ChatDisPlay1 : NetworkBehaviour
         {
             return;
         }
-        string newM = changed.Behaviour.nowString;
-        changed.LoadOld();
-        string oldM = changed.Behaviour.nowString;
-        changed.LoadNew();
-        if(newM != oldM)
-        {
-            changed.Behaviour.BBBB(newM);
-        }
+        changed.Behaviour.TMPText.text += "\n" +  changed.Behaviour.nowString;
     }
 
-    public void BBBB(string Q)
-    {
-        int i = 0;
-        foreach(var B in TMPTexts)
-        {
-             B.text += "\n" + Q;
-        }
-    }
 
-    public void AAAA()
-    {
-        GameObject[] Q = GameObject.FindGameObjectsWithTag("ChatChat");
-        TMPTexts = new TMP_Text[Q.Length];
-        int i = 0;
-        foreach(GameObject B in Q)
-        {
-            TMPTexts[i] = B.GetComponent<TMP_Text>();
-        }
-    }
+
 
     public void PushChatLog(Transform _name, string _chat)
     {
