@@ -8,24 +8,13 @@ using System.Xml;
 
 public class ChatSystem : NetworkBehaviour
 {
-    [Networked(OnChanged = nameof(OnChangeChatLog))]
-    public string chatLogString { get; set; }
-
-    //public string chatLog { get; set; }
-
-    //public TMP_Text TMPText;
     public bool logChange = false;
-
-
-    [SerializeField] GameObject scrollbarGO;
-    [SerializeField] Scrollbar scrollbar;
 
     [SerializeField] InputField mainInputField;
 
-    [SerializeField] GameObject disPlayGO;
-    [SerializeField] TMP_Text disPlay;
-
     [SerializeField] TMP_Text nickNameText;
+
+    [SerializeField] ChatDisPlay1 chatDisplay;
 
     bool isSummit = false;
     bool repit = false;
@@ -35,25 +24,16 @@ public class ChatSystem : NetworkBehaviour
 
     public void Start()
     {
-        scrollbarGO = GameObject.FindWithTag("ScrollV");
-        scrollbar = scrollbarGO.GetComponent<Scrollbar>();
-        disPlayGO = GameObject.FindWithTag("ChatDisplay");
-
-        disPlay = disPlayGO.GetComponentInChildren<TMP_Text>();
-
-
         mainInputField.characterLimit = 1024;
         if (Object.HasInputAuthority)
         {
             mainInputField.enabled = true;
-
         }
-
     }
 
     public override void FixedUpdateNetwork()
     {
-        if (Object.HasInputAuthority)
+        if (Object.HasInputAuthority )
         {
             if (GetInput(out NetworkInputData networkInputData))
             {
@@ -68,21 +48,16 @@ public class ChatSystem : NetworkBehaviour
 
                 }
             }
-            if (scrollbar.value != 0)
-            {
-                scrollbar.value = 0;
-            }
         }
-
     }
 
     private void SummitOff()
     {
+        repit = false;
         if (mainInputField.text != "" && mainInputField.text != " ")
         {
-            chatLogString = mainInputField.text;
-            Debug.Log($"chatLogString = {chatLogString}");
             Debug.Log("Send");
+            chatDisplay.PushChatLog(transform, mainInputField.text);
         }
         else
         {
@@ -90,8 +65,6 @@ public class ChatSystem : NetworkBehaviour
         }
         mainInputField.text = "";
         mainInputField.Select();
-        repit = false;
-
     }
 
     private void SummitOn()
@@ -106,34 +79,15 @@ public class ChatSystem : NetworkBehaviour
     /// <summary>
     /// //////////////////////////////////////////
     /// </summary>
-    public void PushChatLog()
-    {
-        if (disPlay != null)
-        {
-            disPlay.text += transform.name + chatLogString + "\n";
-            nickNameText.text  = transform.name + chatLogString + "\n";
-        }
+    
 
-    }
-    static void OnChangeChatLog(Changed<ChatSystem> changed)
-    {
-
-        Debug.Log("ChatDis is Change ");
-
-        string newchatLog = changed.Behaviour.chatLogString;
-        if (newchatLog == "") //""로 초기화 하기 떄문에 피료없는 체인지는 리턴 
-        {
-            return;
-        }
-        else
-        {
-            changed.Behaviour.PushChatLog();
-            changed.Behaviour.chatLogString = "";
-        }
-
-    }
-
-
-
+    //public void PushChatLog()
+    //{
+    //    if (disPlay != null)
+    //    {
+    //        disPlay.text += transform.name + chatLogString + "\n";
+    //        nickNameText.text  = transform.name + chatLogString + "\n";
+    //    }
+    //}
 
 }
