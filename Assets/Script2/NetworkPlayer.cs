@@ -40,7 +40,7 @@ public class NetworkPlayer : NetworkBehaviour,IPlayerLeft
         }
         else
         {
-            RPC_SetNickNameTOIn(PlayerPrefs.GetString("PlayerNickname"));
+            //RPC_SetNickNameTOIn(PlayerPrefs.GetString("PlayerNickname"));
             Camera localCamera = GetComponentInChildren<Camera>();
             localCamera.enabled = false;
 
@@ -51,7 +51,7 @@ public class NetworkPlayer : NetworkBehaviour,IPlayerLeft
             {
                 if(c.gameObject.tag == "Nickname")
                 {
-                    return;
+                    continue;
                 }
                 c.enabled = false;
             }
@@ -93,10 +93,10 @@ public class NetworkPlayer : NetworkBehaviour,IPlayerLeft
         Debug.Log($"[RPC] SetNickname : {nickName}");
         this.nickName = nickName;
     }
-    [Rpc(RpcSources.StateAuthority, RpcTargets.InputAuthority)]
-    public void RPC_SetNickNameTOIn(string nickName, RpcInfo info = default)
-    {
-        Debug.Log($"[RPC] SetNickname : {nickName}");
-        this.nickName = nickName;
-    }
+    //[Rpc(RpcSources.StateAuthority, RpcTargets.InputAuthority)]
+    //public void RPC_SetNickNameTOIn(string nickName, RpcInfo info = default)
+    //{
+    //    Debug.Log($"[RPC] SetNickname : {nickName}");
+    //    this.nickName = nickName;
+    //}
 }

@@ -3,24 +3,32 @@ using System.Collections;
 using UnityEngine.UI; // Required when Using UI elements.
 using TMPro;
 using Fusion;
-using Unity.VisualScripting;
 using System.Xml;
 
 public class ChatSystem : NetworkBehaviour
 {
-    public bool logChange = false;
+
+    [Networked(OnChanged = nameof(OnChangeChatLog))]
+    public NetworkString<_16> mychat { get; set; }
+
+    //public bool logChange = false;
 
     [SerializeField] InputField mainInputField;
 
-    [SerializeField] TMP_Text nickNameText;
+    bool isOnoff = false;
 
-    [SerializeField] ChatDisPlay1 chatDisplay;
+    bool chatOn = false;
+    bool chatOff = false;
 
-    bool isSummit = false;
+
     bool repit = false;
-    [Networked(OnChanged = nameof(ONCQ))]
-    public NetworkString<_16> myChat { get; set; }
 
+    //Debug.Log($"Push {nowString}");
+    //TMPText.text += nowString;
+
+    public TMP_Text chatLog;
+
+    string myChat;
 
     // Checks if there is anything entered into the input field.
 
@@ -32,14 +40,13 @@ public class ChatSystem : NetworkBehaviour
         {
             mainInputField.enabled = true;
         }
+        chatLog = GameObject.FindWithTag("ChatDisplay").GetComponent<TMP_Text>();
 
-
-        chatDisplay = GameObject.FindGameObjectWithTag("ChatDisplay").GetComponent<ChatDisPlay1>();
     }
 
     public override void FixedUpdateNetwork()
     {
-        if (Object.HasInputAuthority )
+        if (Object.HasInputAuthority)
         {
             if (GetInput(out NetworkInputData networkInputData))
             {
@@ -48,20 +55,28 @@ public class ChatSystem : NetworkBehaviour
                 {
                     Debug.Log("Enter µé¾î¿È");
 
-                    if (repit) SummitOff();
-
-                    else SummitOn();
+                    isOnoff = !isOnoff;
+                    if (isOnoff) chatOn = true;
+                    else chatOff = true;
 
                 }
             }
         }
     }
+    private void FixedUpdate()
+    {
+        if (chatOn) SummitOn();
+        else if (chatOff) SummitOff();
+
+    }
     private void SummitOff()
     {
-        repit = false;
+        chatOff = false;
         if (mainInputField.text != "" && mainInputField.text != " ")
         {
-            myChat = mainInputField.text ;
+            myChat = mainInputField.text;
+
+            RPC_SetChat(myChat);
             Debug.Log($"Send MyChat = {myChat}");
 
         }
@@ -75,45 +90,27 @@ public class ChatSystem : NetworkBehaviour
 
     private void SummitOn()
     {
-        repit = true;
+        chatOn = false;
         mainInputField.Select();
         Debug.Log("Write");
-        Debug.Log(Time.realtimeSinceStartupAsDouble);
 
     }
-    static void ONCQ(Changed<ChatSystem> changed)
+
+    static void OnChangeChatLog(Changed<ChatSystem> changed)
     {
-        if (changed.Behaviour.myChat == "")
-        {
-            return;
-        }
-        NetworkString<_16> newM = changed.Behaviour.myChat;
-        changed.LoadOld();
-        NetworkString<_16> oldM = changed.Behaviour.myChat;
-        changed.LoadNew();
-        if (newM != oldM)
-        {
-            changed.Behaviour.PushMessage();
-
-        }
+        changed.Behaviour.PushMessage();
     }
+
+
     public void PushMessage()
     {
-        chatDisplay.PushChatLog(transform, myChat);
-        Debug.Log($"Push {myChat}");
+        chatLog.text += "\n" + mychat;
     }
-    /// <summary>
-    /// //////////////////////////////////////////
-    /// </summary>
 
-
-    //public void PushChatLog()
-    //{
-    //    if (disPlay != null)
-    //    {
-    //        disPlay.text += transform.name + chatLogString + "\n";
-    //        nickNameText.text  = transform.name + chatLogString + "\n";
-    //    }
-    //}
-
+    [Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority)]
+    public void RPC_SetChat(string mychat, RpcInfo info = default)
+    {
+        Debug.Log($"[RPC] SetNickname : {mychat}");
+        this.mychat = mychat;
+    }
 }
