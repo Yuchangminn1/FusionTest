@@ -7,6 +7,7 @@ TagManager:
   - ChatDisplay
   - ScrollV
   - ChatChat
+  - Nickname
   layers:
   - Default
   - TransparentFX

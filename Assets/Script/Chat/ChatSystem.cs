@@ -19,7 +19,7 @@ public class ChatSystem : NetworkBehaviour
     bool isSummit = false;
     bool repit = false;
     [Networked(OnChanged = nameof(ONCQ))]
-    public string myChat { get; set; }
+    public NetworkString<_16> myChat { get; set; }
 
 
     // Checks if there is anything entered into the input field.
@@ -87,9 +87,9 @@ public class ChatSystem : NetworkBehaviour
         {
             return;
         }
-        string newM = changed.Behaviour.myChat;
+        NetworkString<_16> newM = changed.Behaviour.myChat;
         changed.LoadOld();
-        string oldM = changed.Behaviour.myChat;
+        NetworkString<_16> oldM = changed.Behaviour.myChat;
         changed.LoadNew();
         if (newM != oldM)
         {

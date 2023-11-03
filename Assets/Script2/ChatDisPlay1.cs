@@ -11,12 +11,12 @@ public class ChatDisPlay1 : NetworkBehaviour
     //     2 참여자 쪽에서 메세지가 안보임 
     //     3 아이디가 뒤에 들어온 참가자 아이디로 변경 
     [Networked(OnChanged = nameof(OnChangeChatLog))]
-    public string nowString { get; set; }
+    public NetworkString<_16> nowString { get; set; }
 
     public string lastPushName;
 
 
-    [SerializeField] TMP_Text TMPText;
+    public TMP_Text TMPText;
 
     [SerializeField] Scrollbar scrollbar;
 
@@ -40,15 +40,22 @@ public class ChatDisPlay1 : NetworkBehaviour
         {
             return;
         }
-        changed.Behaviour.TMPText.text += "\n" +  changed.Behaviour.nowString;
+        changed.Behaviour.TMPText.text += "\n" +  changed.Behaviour.nowString.ToString();
     }
 
 
+    // [Rpc(RpcSources.InputAuthority, RpcTargets.All)]
+    [Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority)]
+    public void RPC_Chat(string nickName, RpcInfo info = default)
+    {
+        Debug.Log($"[RPC] Chat : {nowString}");
+        this.nowString = nowString;
+    }
 
-
-    public void PushChatLog(Transform _name, string _chat)
+    public void PushChatLog(Transform _name, NetworkString<_16> _chat)
     {
         nowString = _chat;
         lastPushName = _name.name;
+        RPC_Chat(_chat.ToString());
     }
 }
