@@ -102,7 +102,7 @@ public class CharacterMovementHandler : NetworkBehaviour
 
             networkCharacterControllerPrototypeCustom.Move(moveDirection);
 
-
+            //Debug.Log("moveDirection = " + moveDirection);
             //Jump 
             if (networkInputData.isJumpButtonPressed)
             {

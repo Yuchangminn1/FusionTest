@@ -16059,6 +16059,7 @@ GameObject:
   - component: {fileID: 2186620272198299101}
   - component: {fileID: 1083893752299492136}
   - component: {fileID: 7637086584961491902}
+  - component: {fileID: 7637086584961491903}
   m_Layer: 5
   m_Name: Chat Display
   m_TagString: Untagged
@@ -16356,7 +16357,27 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 2222222222222222222222222222222222222222222
+  m_text: '2
+
+    2
+
+    2
+
+    2
+
+    2
+
+    2
+
+    2
+
+    2
+
+    2
+
+    2
+
+'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: f737232bdb639c846ac58bceb2d97da1, type: 2}
   m_sharedMaterial: {fileID: 3047622007711551482, guid: f737232bdb639c846ac58bceb2d97da1, type: 2}
@@ -16543,7 +16564,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 0
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
@@ -16785,6 +16806,19 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &7637086584961491903
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1062488978866116871}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dad81098dff56c046899bbdc5f626d28, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scrollbarV: {fileID: 7893115144591293612}
 --- !u!114 &7893115144591293612
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16798,7 +16832,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 3
+    m_Mode: 0
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 0}
@@ -16828,16 +16862,16 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 4451132451173033641}
   m_HandleRect: {fileID: 229060241545068768}
   m_Direction: 2
-  m_Value: 0
-  m_Size: 1
+  m_Value: 1
+  m_Size: 0.9454245
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 7893115144591293612}
         m_TargetAssemblyTypeName: UnityEngine.UI.Scrollbar, UnityEngine.UI
-        m_MethodName: set_value
-        m_Mode: 0
+        m_MethodName: 
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine

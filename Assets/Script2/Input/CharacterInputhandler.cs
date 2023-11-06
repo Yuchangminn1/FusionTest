@@ -57,6 +57,8 @@ public class CharacterInputhandler : MonoBehaviour
         }
         if (Input.GetButtonDown("Submit"))
         {
+            Debug.Log("Right Enter!!!");
+
             isRightEnterPressed = true;
         }
         localCameraHandler.SetViewInputVector(viewInputVector);

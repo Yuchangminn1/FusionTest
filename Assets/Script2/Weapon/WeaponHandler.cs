@@ -27,19 +27,21 @@ public class WeaponHandler : NetworkBehaviour
 
     public override void FixedUpdateNetwork()
     {
-        //Debug.Log($"{transform.name} FixedUpdateNetwork()");
         if (hpHandler.isDead)
         {
             return;
         }
-
-        if(GetInput(out NetworkInputData networkInputData))
+        if (GetInput(out NetworkInputData networkInputData))
         {
             if (networkInputData.isFireButtonPressed)
             {
                 Fire(networkInputData.aimFowardVector);
             }
         }
+        //Debug.Log($"{transform.name} FixedUpdateNetwork()");
+        
+
+
     }
 
     //플레이어가 발사버튼을 누름
@@ -61,13 +63,13 @@ public class WeaponHandler : NetworkBehaviour
         float hitDistance = 100;
         bool ishitOtherPlayer = false;
 
-        if(hitnfo.Distance > 0)
+        if (hitnfo.Distance > 0)
         {
             hitDistance = hitnfo.Distance;
         }
-        if(hitnfo.Hitbox != null)
+        if (hitnfo.Hitbox != null)
         {
-            
+
             if (Object.HasStateAuthority)
             {
 
@@ -78,13 +80,13 @@ public class WeaponHandler : NetworkBehaviour
 
             ishitOtherPlayer = true;
         }
-        else if(hitnfo.Collider != null)
+        else if (hitnfo.Collider != null)
         {
             //Debug.Log("@");
 
             // Debug.Log($"{Time.time} {transform.name} hit physX collider {hitnfo.Collider.transform.name}");
         }
-        
+
         //Debug
         if (ishitOtherPlayer)
         {

@@ -59,8 +59,8 @@ public class NetworkPlayer : NetworkBehaviour,IPlayerLeft
             Debug.Log("spawned remote player");
         }
         //이름 Clone말고 번호로 하는법
-        string Q = $"{Object.Id}";
-        transform.name = Q;
+        //string Q = $"{Object.Id}";
+        //transform.name = PlayerPrefs.GetString("PlayerNickname");
         //Q =$"{Q[4]}";
         //mySNum = int.Parse(Q);
         //Debug.Log(mySNum);
