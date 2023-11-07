@@ -6,9 +6,14 @@ using Unity.VisualScripting;
 using TMPro;
 using JetBrains.Annotations;
 using UnityEngine.InputSystem;
+using ExitGames.Client.Photon.StructWrapping;
+using UnityEngine.EventSystems;
 
 public class CharacterMovementHandler : NetworkBehaviour
 {
+    PlayerInput input;
+    Vector3 moveDirection;
+    //InputAction moveAction;
 
     //[Networked(OnChanged = nameof(OnFireNumChanged))]
     //이 네트워크 클래스가 
@@ -42,12 +47,25 @@ public class CharacterMovementHandler : NetworkBehaviour
 
     }
 
+    private void Update()
+    {
+
+    }
+    void OnMove(InputValue value)
+    {
+        Vector2 dir = value.Get<Vector2>();
+        if(input != null)
+        {
+            moveDirection = new Vector3(dir.x, 0f, dir.y);
+            Debug.Log("New INput System Value = " + moveDirection);
+
+        }
+    }
 
     //그냥 update 는 로컬로만 움직임 
     //서버에서 움직일려면 fixedUpdateNetwork
     public override void FixedUpdateNetwork()
     {
-        
         if (HasStateAuthority)
         {
             //상호작용 권한이 있으면

@@ -87,10 +87,10 @@ public class ChatSystem : NetworkBehaviour
     {
         if (Object.HasInputAuthority)
         {
-            if (Input.GetButtonDown("Submit"))
-            {
-                chatDown = true;
-            }
+            //if (Input.GetButtonDown("Submit"))
+            //{
+            //    chatDown = true;
+            //}
 
             
             

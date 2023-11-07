@@ -31,37 +31,37 @@ public class CharacterInputhandler : MonoBehaviour
     void Update()
     {
 
-        if (!characterMovementHandler.Object.HasInputAuthority)
-            return;
+        //if (!characterMovementHandler.Object.HasInputAuthority)
+        //    return;
 
-        //View input
-        viewInputVector.x = Input.GetAxis("Mouse X");
-        viewInputVector.y = Input.GetAxis("Mouse Y") *-1; //Invert the mouse look
+        ////View input
+        //viewInputVector.x = Input.GetAxis("Mouse X");
+        //viewInputVector.y = Input.GetAxis("Mouse Y") *-1; //Invert the mouse look
 
-        //ÀÎÇ²À» ¼öÁý  move input
-        moveInputVector.x = Input.GetAxis("Horizontal");
-        moveInputVector.y = Input.GetAxis("Vertical");
+        ////ÀÎÇ²À» ¼öÁý  move input
+        //moveInputVector.x = Input.GetAxis("Horizontal");
+        //moveInputVector.y = Input.GetAxis("Vertical");
 
 
-        if (Input.GetButtonDown("Jump"))
-        {
-            Debug.Log("Jump!!!");
+        //if (Input.GetButtonDown("Jump"))
+        //{
+        //    Debug.Log("Jump!!!");
 
-            isJumpButtonPressed = true;
-        }
-        if (Input.GetButtonDown("Fire1")) 
-        {
+        //    isJumpButtonPressed = true;
+        //}
+        //if (Input.GetButtonDown("Fire1")) 
+        //{
 
-            isFireButtonPressed = true;
-            ++fireNum;
-        }
-        if (Input.GetButtonDown("Submit"))
-        {
-            Debug.Log("Right Enter!!!");
+        //    isFireButtonPressed = true;
+        //    ++fireNum;
+        //}
+        //if (Input.GetButtonDown("Submit"))
+        //{
+        //    Debug.Log("Right Enter!!!");
 
-            isRightEnterPressed = true;
-        }
-        localCameraHandler.SetViewInputVector(viewInputVector);
+        //    isRightEnterPressed = true;
+        //}
+        //localCameraHandler.SetViewInputVector(viewInputVector);
 
         
 
