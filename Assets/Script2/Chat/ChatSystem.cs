@@ -11,7 +11,13 @@ public class ChatSystem : NetworkBehaviour
     [Networked(OnChanged = nameof(OnChangeChatLog))]
     public NetworkString<_16> myChat { get; set; }
 
-    public string sendPlayer;
+    [Networked(OnChanged = nameof(OnChangeChatLog))]
+    public string sendName { get; set; }
+
+    public TMP_Text sendPlayer;
+
+    public string myName;
+
 
     //public bool logChange = false;
 
@@ -44,8 +50,12 @@ public class ChatSystem : NetworkBehaviour
             mainInputField.enabled = true;
         }
         chatLog = GameObject.FindWithTag("ChatDisplay").GetComponent<TMP_Text>();
+        Debug.Log("chatLog = " + chatLog);
         scrollV = GameObject.FindWithTag("ScrollV").GetComponent<Scrollbar>();
-        sendPlayer = PlayerPrefs.GetString("PlayerNickname");
+
+
+        
+        //sendPlayer = PlayerPrefs.GetString("PlayerNickname");
     }
 
     //public override void FixedUpdateNetwork()
@@ -56,7 +66,7 @@ public class ChatSystem : NetworkBehaviour
     //        {
     //            if (networkInputData.isRightEnterPressed)
     //            {
-                    
+
     //                chatDown = true;
     //            }
 
@@ -64,6 +74,15 @@ public class ChatSystem : NetworkBehaviour
     //    }
 
     //}
+    public override void FixedUpdateNetwork()
+    {
+        //if (chatDown)
+        //{
+        //    Summit();
+        //    Debug.Log("Enter·Î  Summit ½ÇÇà");
+        //    chatDown = false;
+        //}
+    }
     private void Update()
     {
         if (Object.HasInputAuthority)
@@ -79,6 +98,8 @@ public class ChatSystem : NetworkBehaviour
     }
     private void FixedUpdate()
     {
+        myName = sendPlayer.text;
+        sendName = myName;
         if (chatDown)
         {
             Summit();
@@ -86,7 +107,7 @@ public class ChatSystem : NetworkBehaviour
             chatDown = false;
         }
     }
-    private void Summit()
+    public void Summit()
     {
 
         if (mainInputField.interactable)
@@ -94,8 +115,9 @@ public class ChatSystem : NetworkBehaviour
             if (mainInputField.text != "" && mainInputField.text != " ")
             {
                 myChat = mainInputField.text;
-                chatLog.text += $"\n {transform.name} : " + myChat;
-                RPC_SetChat(myChat, sendPlayer);
+                chatLog.text += $"\n {myName} : " + myChat;
+                
+                RPC_SetChat(myChat.ToString(), sendName);
                 Debug.Log($"Send MyChat = {myChat}");
                 mainInputField.text = "";
             }
@@ -144,21 +166,20 @@ public class ChatSystem : NetworkBehaviour
         {
             return;
         }
-        chatLog.text += $"\n {sendPlayer} : {myChat}";
+        if (chatLog == null)
+        {
+            chatLog = GameObject.FindWithTag("ChatDisplay").GetComponent<TMP_Text>();
+        }
+
+        chatLog.text += $"\n {sendName} : {myChat}";
 
         myChat = "";
     }
-    public void PushMessageName()
+
+    [Rpc(RpcSources.InputAuthority, RpcTargets.All)]
+    public void RPC_SetChat(string mychat, string _sendName, RpcInfo info = default)
     {
-        if (Object.HasInputAuthority)
-        {
-            return;
-        }
-    }
-    [Rpc(RpcSources.InputAuthority, RpcTargets.StateAuthority)]
-    public void RPC_SetChat(NetworkString<_16> mychat,string _sendPlayer, RpcInfo info = default)
-    {
-        sendPlayer = _sendPlayer;
+        sendName = _sendName;
         Debug.Log($"[RPC] SetNickname : {mychat}");
         this.myChat = mychat;
     }

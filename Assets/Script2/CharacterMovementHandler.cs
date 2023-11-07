@@ -5,6 +5,7 @@ using Fusion;
 using Unity.VisualScripting;
 using TMPro;
 using JetBrains.Annotations;
+using UnityEngine.InputSystem;
 
 public class CharacterMovementHandler : NetworkBehaviour
 {

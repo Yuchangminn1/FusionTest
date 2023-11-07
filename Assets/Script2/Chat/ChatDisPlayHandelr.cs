@@ -5,6 +5,9 @@ using UnityEngine;
 using UnityEngine.UI;
 public class ChatDisPlayHandelr : MonoBehaviour
 {
+
+
+
     public Scrollbar scrollbarV;
     bool donotouch = false;
 

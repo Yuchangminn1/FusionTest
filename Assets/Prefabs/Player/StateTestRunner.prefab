@@ -880,6 +880,7 @@ GameObject:
   - component: {fileID: 4151183343878407558}
   - component: {fileID: 5562500385456555848}
   - component: {fileID: 6938089165380881423}
+  - component: {fileID: 620067535770517586}
   m_Layer: 0
   m_Name: StateTestRunner
   m_TagString: Untagged
@@ -1133,13 +1134,46 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _interpolationDataSource: 0
-  _mychat:
+  _myChat:
     _length: 0
     _data:
       Data: 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+  _sendName: 
+  sendPlayer: {fileID: 8897015954960035588}
+  myName: 
   mainInputField: {fileID: 1043394717398000542}
   chatLog: {fileID: 0}
   scrollV: {fileID: 0}
+--- !u!114 &620067535770517586
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1394893312914236798}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62899f850307741f2a39c98a8b639597, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Actions: {fileID: 0}
+  m_NotificationBehavior: 0
+  m_UIInputModule: {fileID: 0}
+  m_DeviceLostEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_DeviceRegainedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ControlsChangedEvent:
+    m_PersistentCalls:
+      m_Calls: []
+  m_ActionEvents: []
+  m_NeverAutoSwitchControlSchemes: 0
+  m_DefaultControlScheme: 
+  m_DefaultActionMap: 
+  m_SplitScreenIndex: -1
+  m_Camera: {fileID: 0}
 --- !u!1 &1443194376284472811
 GameObject:
   m_ObjectHideFlags: 0
