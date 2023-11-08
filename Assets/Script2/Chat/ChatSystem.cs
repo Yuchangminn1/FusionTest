@@ -4,9 +4,16 @@ using UnityEngine.UI; // Required when Using UI elements.
 using TMPro;
 using Fusion;
 using System.Xml;
+using UnityEngine.InputSystem;
+using System;
 
 public class ChatSystem : NetworkBehaviour
 {
+    //New Input System;
+    public PlayerInputAction playerControls;
+    private InputAction chat;
+
+
 
     [Networked(OnChanged = nameof(OnChangeChatLog))]
     public NetworkString<_16> myChat { get; set; }
@@ -42,8 +49,16 @@ public class ChatSystem : NetworkBehaviour
     //클라이언트에서 쳇이 onoffonoff반복하는거 방지
     float inputTime = 0f;
     // Checks if there is anything entered into the input field.
+    public void Awake()
+    {
+        //이걸 어웨이크에서 안하면 null이라 오류남 
+        playerControls = new PlayerInputAction();
+
+    }
     public void Start()
     {
+
+
         mainInputField.characterLimit = 1024;
         if (Object.HasInputAuthority)
         {
@@ -54,7 +69,7 @@ public class ChatSystem : NetworkBehaviour
         scrollV = GameObject.FindWithTag("ScrollV").GetComponent<Scrollbar>();
 
 
-        
+
         //sendPlayer = PlayerPrefs.GetString("PlayerNickname");
     }
 
@@ -85,16 +100,16 @@ public class ChatSystem : NetworkBehaviour
     }
     private void Update()
     {
-        if (Object.HasInputAuthority)
-        {
-            //if (Input.GetButtonDown("Submit"))
-            //{
-            //    chatDown = true;
-            //}
+        //if (Object.HasInputAuthority)
+        //{
+        //if (Input.GetButtonDown("Submit"))
+        //{
+        //    chatDown = true;
+        //}
 
-            
-            
-        }
+
+
+        //}
     }
     private void FixedUpdate()
     {
@@ -102,6 +117,8 @@ public class ChatSystem : NetworkBehaviour
         sendName = myName;
         if (chatDown)
         {
+            Debug.Log("chatDown");
+
             Summit();
             Debug.Log("Enter로  Summit 실행");
             chatDown = false;
@@ -116,7 +133,7 @@ public class ChatSystem : NetworkBehaviour
             {
                 myChat = mainInputField.text;
                 chatLog.text += $"\n {myName} : " + myChat;
-                
+
                 RPC_SetChat(myChat.ToString(), sendName);
                 Debug.Log($"Send MyChat = {myChat}");
                 mainInputField.text = "";
@@ -133,7 +150,7 @@ public class ChatSystem : NetworkBehaviour
 
     }
 
-    //private void fixedUpdate()
+    //private void FixedUpdate()
     //{
 
     //    if (chatDown)
@@ -149,7 +166,7 @@ public class ChatSystem : NetworkBehaviour
     static void OnChangeChatLog(Changed<ChatSystem> changed)
     {
         Debug.Log("mychat = " + changed.Behaviour.myChat);
-        if(changed.Behaviour.myChat== "")
+        if (changed.Behaviour.myChat == "")
         {
             return;
         }
@@ -184,16 +201,21 @@ public class ChatSystem : NetworkBehaviour
         this.myChat = mychat;
     }
 
-    //IEnumerator ScrollDown()
-    //{
-    //    scrollV.value = 0;
-    //    yield return null;
+    private void OnEnable()
+    {
+        Debug.Log("chatDown change true ");
+        chat = playerControls.Player.Chat;
+        chat.Enable();
 
-    //    while (scrollV.value != 0)
-    //    {
-    //        scrollV.value = 0;
-    //        yield return null;
-
-    //    }
-    //}
+        chat.performed += Chat;
+    }
+    private void OnDisable()
+    {
+        chat.Disable();
+    }
+    private void Chat(InputAction.CallbackContext context)
+    {
+        Debug.Log("chatDown change true ");
+        chatDown = true;
+    }
 }

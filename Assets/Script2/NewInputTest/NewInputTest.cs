@@ -9,10 +9,13 @@ public class NewInputTest : MonoBehaviour
     private InputAction move;
     private InputAction jump;
     private InputAction fire;
+    private InputAction chat;
+    private InputAction look;
 
 
     bool isis = false;
     Vector2 moveDirection = Vector2.zero;
+    Vector2 lookVec = Vector2.zero;
     Vector2 dir;
     private void Awake()
     {
@@ -23,13 +26,24 @@ public class NewInputTest : MonoBehaviour
     {
         move = playerControls.Player.Move;
         move.Enable();
-        Debug.Log("move Set");
+
+        look = playerControls.Player.Look;
+        look.Enable();
+
         jump = playerControls.Player.Jump;
         jump.Enable();
-        jump.performed += Jump;
+
         fire = playerControls.Player.Fire;
         fire.Enable();
+
+        chat = playerControls.Player.Chat;
+        chat.Enable();
+
+
+        
+        jump.performed += Jump;
         fire.performed += Fire;
+        chat.performed += Chat;
     }
     private void OnDisable()
     {
@@ -42,33 +56,21 @@ public class NewInputTest : MonoBehaviour
 
     // Update is called once per frame
 
-    void Update()
+    void FixedUpdate()
     {
-        dir = move.ReadValue<Vector2>();
+        dir = Vector2.Lerp(dir, move.ReadValue<Vector2>(), 0.1f);
+        dir.x = MYCut(dir.x);
+        dir.y = MYCut(dir.y);
         Debug.Log(dir);
-
-
-        //Debug.Log(" ddddddd" + fire.ReadValue<bool>());
-        //if (fire.ReadValue<bool>())
-        //{
-        //    Debug.Log("Fire ON" + fire.ReadValue<bool>());
-        //    Debug.Log("Fire ON" + fire.ReadValue<bool>());
-
-        //}
-        //if (dir == Vector2.zero && moveDirection == Vector2.zero)
-        //    return;
-        //moveDirection = Vector2.Lerp(moveDirection, dir, 0.15f);
-        //moveDirection.x = MYCut(moveDirection.x);
-        //moveDirection.y = MYCut(moveDirection.y);
-
-
-        //Debug.Log(moveDirection);
+        lookVec = look.ReadValue<Vector2>();
+        Debug.Log($"lookVec  = " + lookVec);
     }
-    private float MYCut(float _float)
+
+    private float MYCut(float _float )
     {
         if (Mathf.Abs(_float) > 0.9f)
             _float = 1 * _float/ Mathf.Abs(_float);
-        else if (Mathf.Abs(_float) < 0.15)
+        else if (Mathf.Abs(_float) < 0.1)
             _float = 0;
         return _float;
     }
@@ -92,6 +94,9 @@ public class NewInputTest : MonoBehaviour
     private void Jump(InputAction.CallbackContext context)
     {
         Debug.Log("Jump Jump Jump");
-
+    }
+    private void Chat(InputAction.CallbackContext context)
+    {
+        Debug.Log("Chat Chat Chat");
     }
 }
