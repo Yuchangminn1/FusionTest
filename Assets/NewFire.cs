@@ -8,6 +8,8 @@ using System;
 
 public class NewFire : MonoBehaviour
 {
+    //닉네임이 겹치면 정보를 덮어버림 이거 닉네임 겹치면 아이디 확인하게 해서 해결해야할듯 나중에하지뭐 
+
     string defual = "https://chanfps-3ef6c-default-rtdb.firebaseio.com/";
 
     FirebaseAuth auth;
@@ -109,7 +111,6 @@ public class NewFire : MonoBehaviour
         }
         );
     }
-
     public void LogOut()
     {
         auth.SignOut();
@@ -169,75 +170,5 @@ public class NewFire : MonoBehaviour
             }
         });
     }
-    //public void OnClickSaveButton()
-    //{
-    //    if (auth.CurrentUser == null)
-    //    {
-    //        text.text = ("로그인 필요");
-    //        return;
-    //    }
-    //    email = emailField.text.Trim();
-    //    nickName = nickNameField.text.Trim();
-    //    level = levelField.text.Trim();
-    //    gold = goldField.text.Trim();
-
-    //    var data = new Data(level, gold);
-    //    string jsonData = JsonUtility.ToJson(data);
-
-    //    databaseReference.Child(email).SetRawJsonValueAsync(jsonData);
-    //    text.text = "저장";
-    //}
-
-    //public void OnClickLoadButton()
-    //{
-    //    if (auth.CurrentUser == null)
-    //    {
-    //        text.text = ("로그인 필요");
-    //        return;
-    //    }
-    //    email = emailField.text.Trim();
-    //    nickName = nickNameField.text.Trim();
-    //    databaseReference.Child(email).GetValueAsync().ContinueWith(task =>
-    //    {
-    //        if (task.IsCanceled)
-    //        {
-    //            text.text = "로드 취소";
-    //            return;
-    //        }
-    //        else if (task.IsFaulted)
-    //        {
-    //            text.text = "로드 실패";
-    //            return;
-
-    //        }
-    //        else
-    //        {
-    //            text.text = ("로드 진행중");
-    //            var dataSnapshot = task.Result;
-
-
-    //            string dataString = "";
-
-    //            foreach (var datas in dataSnapshot.Children)
-    //            {
-    //                if (datas.Key == QQ)
-    //                {
-    //                    QW = datas.Value.ToString();
-    //                }
-    //                dataString += datas.Key + " " + datas.Value + "\n";
-    //            }
-
-    //            text.text = "QW = " + QW;
-    //        }
-    //        //text.text = "QW = " + QW;
-    //    });
-
-
-
-
-
-
-    //}
-
-
+    
 }

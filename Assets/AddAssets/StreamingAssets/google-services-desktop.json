@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "1021042837355",
+    "firebase_url": "https://chanfps-3ef6c-default-rtdb.firebaseio.com/",
+    "project_id": "chanfps-3ef6c",
+    "storage_bucket": "chanfps-3ef6c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1021042837355:android:7532e95760e9c3935cae2e",
+        "android_client_info": {
+          "package_name": "com.firebase.test"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBnvhir14RqTx80oIiV6hoQDNzzdJBREeU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
