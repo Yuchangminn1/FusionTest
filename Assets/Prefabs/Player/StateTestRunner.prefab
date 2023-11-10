@@ -881,6 +881,7 @@ GameObject:
   - component: {fileID: 5562500385456555848}
   - component: {fileID: 6938089165380881423}
   - component: {fileID: 620067535770517586}
+  - component: {fileID: -5338822107721316203}
   m_Layer: 0
   m_Name: StateTestRunner
   m_TagString: Untagged
@@ -962,6 +963,7 @@ MonoBehaviour:
   - {fileID: 3698954171773947149}
   - {fileID: 4151183343878407558}
   - {fileID: 6938089165380881423}
+  - {fileID: -5338822107721316203}
   SimulationBehaviours: []
 --- !u!114 &6537298461557146503
 MonoBehaviour:
@@ -1110,7 +1112,7 @@ Animator:
   m_GameObject: {fileID: 1394893312914236798}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: dd4802cc7972ecb4699ed0b29916793f, type: 3}
-  m_Controller: {fileID: 9100000, guid: e8cea038023f8844c83d4b9eecbb3f41, type: 2}
+  m_Controller: {fileID: 9100000, guid: f03004414b4c66d4385838b14138c0eb, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -1174,6 +1176,33 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!114 &-5338822107721316203
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1394893312914236798}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fecbc7f22d838204baec3b490f958066, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _interpolationDataSource: 0
+  dodgeCount: 0
+  jumpCount: 0
+  isdead: 0
+  isStop: 0
+  isHeal: 0
+  fHpHeal: 40
+  healNum: 0
+  healNumMax: 3
+  GroundCheckDis: 0.65
+  groundLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  animationTrigger: 0
+  anima: {fileID: 0}
 --- !u!1 &1443194376284472811
 GameObject:
   m_ObjectHideFlags: 0

@@ -24,12 +24,11 @@ public class PlayerStateHandler : NetworkBehaviour
     [SerializeField] protected float GroundCheckDis = 0.65f;
     public LayerMask groundLayer; // 땅인지 확인하기 위한 레이어 마스크
 
-    
-    [SerializeField] protected int hp;
-    [SerializeField] protected int hpMax;
 
     public bool animationTrigger = false;
-    Animator anima;
+    [SerializeField] Animator anima;
+
+    CharacterController cc;
 
     #region FSM
     protected StateMachine stateMachine;
@@ -46,15 +45,18 @@ public class PlayerStateHandler : NetworkBehaviour
 
 
     #endregion
-    protected virtual void Awake()
+    void Awake()
     {
         stateMachine = new StateMachine();
+
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        anima = GetComponentInChildren<Animator>();
+        anima = transform.GetComponent<Animator>();
+        cc = transform.GetComponent<CharacterController>();
+
 
         #region FSM_Initialize
         moveState = new MoveState(this, 0);
@@ -67,15 +69,27 @@ public class PlayerStateHandler : NetworkBehaviour
         deathState = new DeathState(this, 7);
         healState = new HealState(this, 8);
         #endregion
+        stateMachine.ChangeState(moveState);
     }
+    public void ChangeState(PlayerState state)
+    {
+        stateMachine.ChangeState(state);
 
+    }
     // Update is called once per frame
     void Update()
     {
         
     }
+    private void LateUpdate()
+    {
+        Vector3 tmp = cc.velocity;
+        tmp = tmp.normalized;
+        SetFloat("InputX", tmp.x);
+        SetFloat("InputZ", tmp.z);
 
-    
+    }
+
     public bool IsGround()
     {
         //발밑체크
